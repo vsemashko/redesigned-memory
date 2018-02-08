@@ -1,0 +1,35 @@
+{
+  "name": "webpack-boilerplate",
+  "version": "1.0.0",
+  "description": "Set of different webpack configurations for different purposes\r Different branches for different configs",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack --config=config/webpack.dev.js",
+    "serve": "webpack-dev-server --config=config/webpack.dev.js",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vsemashko/webpack-boilerplate.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vsemashko/webpack-boilerplate/issues"
+  },
+  "homepage": "https://github.com/vsemashko/webpack-boilerplate#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.6.1",
+    "css-loader": "^0.28.9",
+    "extract-loader": "^1.0.2",
+    "file-loader": "^1.1.6",
+    "html-loader": "^0.5.5",
+    "style-loader": "^0.20.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1"
+  }
+}
