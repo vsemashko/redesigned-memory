@@ -1,44 +1,33 @@
 const path = require('path');
+const webpack = require('webpack');
+const HTMLWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
     entry: {
-        main: ['babel-polyfill', './src/main.js']
+        main: ['./src/main.js']
     },
     output: {
         filename: '[name]-bundle.js',
-        path: path.resolve(__dirname, '../dist')
+        path: path.resolve(__dirname, '../dist'),
+        publicPath: "/"
     },
     devServer: {
         contentBase: 'dist',
-        overlay: true
+        overlay: true,
+        stats: {
+            colors: true
+        }
     },
     module: {
         rules: [
             {
                 test: /\.js$/,
+                exclude: /node_modules/,
                 use: ['babel-loader']
             },
             {
                 test: /\.css$/,
                 use: ['style-loader', 'css-loader']
-            },
-            {
-                test: /\.html$/,
-                use: [
-                    {
-                        loader: 'file-loader',
-                        options: {
-                            name: '[name].html'
-                        }
-                    },
-                    'extract-loader',
-                    {
-                        loader: 'html-loader',
-                        options: {
-                            attrs: ['img:src']
-                        }
-                    }
-                ]
             },
             {
                 test: [/\.(bmp|gif|jpe?g|png)$/],
@@ -50,7 +39,25 @@ module.exports = {
                         }
                     }
                 ]
+            },
+            {
+                test: /\.html$/,
+                use: [
+                    {
+                        loader: 'html-loader',
+                        options: {
+                            attrs: ['img:src']
+                        }
+                    }
+                ]
             }
         ]
-    }
+    },
+    plugins: [
+        new webpack.HotModuleReplacementPlugin(), // Enable HMR
+        new webpack.NamedModulesPlugin(),
+        new HTMLWebpackPlugin({
+            template: "./src/index.html"
+        })
+    ]
 };
