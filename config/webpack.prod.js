@@ -3,9 +3,12 @@ const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const BrotliPlugin = require('brotli-webpack-plugin');
 
 const cssLoader = {
-    loader: "css-loader",
+    loader: 'css-loader',
     options: {
         minimize: true
     }
@@ -28,7 +31,7 @@ const postcssLoader = {
     }
 };
 
-module.exports = {
+module.exports = env => ({
     entry: {
         main: ['./src/main.js']
     },
@@ -36,7 +39,7 @@ module.exports = {
     output: {
         filename: '[name]-bundle.js',
         path: path.resolve(__dirname, '../dist'),
-        publicPath: "/"
+        publicPath: '/'
     },
     devServer: {
         contentBase: 'dist',
@@ -55,7 +58,7 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: ExtractTextPlugin.extract({
-                    fallback: "style-loader",
+                    fallback: 'style-loader',
                     use: [
                         cssLoader,
                         postcssLoader,
@@ -88,17 +91,31 @@ module.exports = {
         ]
     },
     plugins: [
-        new ExtractTextPlugin("[name].css"),
-        /*new OptimizeCssAssetsPlugin({
+        new ExtractTextPlugin('[name].css'),
+        new OptimizeCssAssetsPlugin({
             assetNameRegExp: /\.css$/g,
-            cssProcessor: require("cssnano"),
+            cssProcessor: require('cssnano'),
             cssProcessorOptions: {discardComments: {removeAll: true}},
             canPrint: true
-        }),*/
+        }),
+        new webpack.DefinePlugin({
+            'process.env': {
+                NODE_ENV: JSON.stringify(env.NODE_ENV)
+            }
+        }),
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
         new HTMLWebpackPlugin({
-            template: "./src/index.html"
-        })
+            template: './src/index.html'
+        }),
+        new UglifyJSPlugin({
+            cache: true,
+            parallel: true,
+            sourceMap: true
+        }),
+        new CompressionPlugin({
+            algorithm: 'gzip'
+        }),
+        new BrotliPlugin()
     ]
-};
+});

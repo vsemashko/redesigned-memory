@@ -1,30 +1,32 @@
-import express from "express";
+import express from 'express';
 const server = express();
 
-const isProd = process.env.NODE_ENV === "production";
+const isProd = process.env.NODE_ENV === 'production';
 if (!isProd) {
-    const webpack = require("webpack");
-    const config = require("../config/webpack.dev.js");
+    const webpack = require('webpack');
+    const config = require('../config/webpack.dev.js');
     const compiler = webpack(config);
-    require("webpack-mild-compile")(compiler);
+    require('webpack-mild-compile')(compiler);
 
-    const webpackDevMiddleware = require("webpack-dev-middleware")(
+    const webpackDevMiddleware = require('webpack-dev-middleware')(
         compiler,
         config.devServer
     );
 
-    const webpackHotMiddlware = require("webpack-hot-middleware")(
+    const webpackHotMiddlware = require('webpack-hot-middleware')(
         compiler,
         config.devServer
     );
 
     server.use(webpackDevMiddleware);
     server.use(webpackHotMiddlware);
-    console.log("Middleware enabled");
+    console.log('Middleware enabled');
 }
 
-const staticMiddleware = express.static("dist");
-server.use(staticMiddleware);
+const expressStaticGzip = require('express-static-gzip');
+server.use(expressStaticGzip('dist', {
+    enableBrotli: true
+}));
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {

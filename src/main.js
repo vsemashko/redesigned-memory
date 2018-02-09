@@ -1,6 +1,5 @@
-import 'babel-runtime/regenerator';
-import 'babel-register';
-import 'webpack-hot-middleware/client?reload=true';
 import './index.html';
 import './main.scss';
 import './index';
+
+console.log(`Environment is ${process.env.NODE_ENV}`);
