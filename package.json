@@ -4,8 +4,9 @@
   "description": "Set of different webpack configurations for different purposes\r Different branches for different configs",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config=config/webpack.dev.js",
-    "serve": "nodemon --watch config --watch server server/main.js"
+    "build": "webpack --config=config/webpack.prod.js",
+    "serve": "nodemon --watch config --watch server server/main.js",
+    "serve:prod": "cross-env NODE_ENV=production node server/main.js"
   },
   "repository": {
     "type": "git",
@@ -32,11 +33,13 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
     "css-loader": "^0.28.9",
+    "extract-text-webpack-plugin": "^3.0.2",
     "file-loader": "^1.1.6",
     "html-loader": "^0.5.5",
     "html-webpack-plugin": "^2.30.1",
     "node-sass": "^4.7.2",
     "nodemon": "^1.14.12",
+    "optimize-css-assets-webpack-plugin": "^3.2.0",
     "postcss": "^6.0.17",
     "postcss-flexbugs-fixes": "^3.3.0",
     "postcss-loader": "^2.1.0",

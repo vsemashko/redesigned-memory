@@ -1,6 +1,32 @@
 const path = require('path');
 const webpack = require('webpack');
-const HTMLWebpackPlugin = require("html-webpack-plugin");
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HTMLWebpackPlugin = require('html-webpack-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+
+const cssLoader = {
+    loader: "css-loader",
+    options: {
+        minimize: true
+    }
+};
+const postcssLoader = {
+    loader: 'postcss-loader',
+    options: {
+        plugins: () => [
+            require('postcss-flexbugs-fixes'),
+            require('autoprefixer')({
+                browsers: [
+                    '>1%',
+                    'last 4 versions',
+                    'Firefox ESR',
+                    'not ie < 9'
+                ],
+                flexbox: 'no-2009',
+            }),
+        ],
+    }
+};
 
 module.exports = {
     entry: {
@@ -27,29 +53,15 @@ module.exports = {
                 use: ['babel-loader']
             },
             {
-                test: /\.scss/,
-                use: [
-                    'style-loader',
-                    'css-loader',
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            plugins: () => [
-                                require('postcss-flexbugs-fixes'),
-                                require('autoprefixer')({
-                                    browsers: [
-                                        '>1%',
-                                        'last 4 versions',
-                                        'Firefox ESR',
-                                        'not ie < 9'
-                                    ],
-                                    flexbox: 'no-2009',
-                                }),
-                            ],
-                        }
-                    },
-                    'sass-loader'
-                ]
+                test: /\.scss$/,
+                use: ExtractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: [
+                        cssLoader,
+                        postcssLoader,
+                        'sass-loader'
+                    ]
+                })
             },
             {
                 test: [/\.(bmp|gif|jpe?g|png)$/],
@@ -76,6 +88,13 @@ module.exports = {
         ]
     },
     plugins: [
+        new ExtractTextPlugin("[name].css"),
+        /*new OptimizeCssAssetsPlugin({
+            assetNameRegExp: /\.css$/g,
+            cssProcessor: require("cssnano"),
+            cssProcessorOptions: {discardComments: {removeAll: true}},
+            canPrint: true
+        }),*/
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
         new HTMLWebpackPlugin({
