@@ -31,12 +31,37 @@ module.exports = {
                 use: ['style-loader', 'css-loader']
             },
             {
+                test: /\.scss/,
+                use: [
+                    'style-loader',
+                    'css-loader',
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            plugins: () => [
+                                require('postcss-flexbugs-fixes'),
+                                require('autoprefixer')({
+                                    browsers: [
+                                        '>1%',
+                                        'last 4 versions',
+                                        'Firefox ESR',
+                                        'not ie < 9'
+                                    ],
+                                    flexbox: 'no-2009',
+                                }),
+                            ],
+                        }
+                    },
+                    'sass-loader'
+                ]
+            },
+            {
                 test: [/\.(bmp|gif|jpe?g|png)$/],
                 use: [
                     {
                         loader: 'file-loader',
                         options: {
-                            name: 'images/[name].[ext]'
+                            name: 'images/[name]-[hash:8].[ext]'
                         }
                     }
                 ]

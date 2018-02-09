@@ -6,7 +6,7 @@ if (!isProd) {
     const webpack = require("webpack");
     const config = require("../config/webpack.dev.js");
     const compiler = webpack(config);
-    require("webpack-mild-compile")(compiler)
+    require("webpack-mild-compile")(compiler);
 
     const webpackDevMiddleware = require("webpack-dev-middleware")(
         compiler,
@@ -26,7 +26,7 @@ if (!isProd) {
 const staticMiddleware = express.static("dist");
 server.use(staticMiddleware);
 
-const PORT = 8080;
+const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
     console.log(`Server listening on http://localhost:${PORT}`);
 });
