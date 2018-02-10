@@ -1,6 +1,9 @@
 {
   "name": "webpack-boilerplate",
   "version": "1.0.0",
+  "engines": {
+    "node": "8.9.4"
+  },
   "description": "Set of different webpack configurations for different purposes\r Different branches for different configs",
   "main": "index.js",
   "scripts": {
