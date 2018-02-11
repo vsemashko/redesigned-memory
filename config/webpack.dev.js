@@ -1,9 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
-const HTMLWebpackPlugin = require("html-webpack-plugin");
+const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
+        vendor: ["react", "lodash", "react-dom"],
         main: [
             'babel-runtime/regenerator',
             'webpack-hot-middleware/client?reload=true',
@@ -14,7 +15,7 @@ module.exports = {
     output: {
         filename: '[name]-bundle.js',
         path: path.resolve(__dirname, '../dist'),
-        publicPath: "/"
+        publicPath: '/'
     },
     devServer: {
         contentBase: 'dist',
@@ -83,7 +84,7 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin(),
         new webpack.NamedModulesPlugin(),
         new HTMLWebpackPlugin({
-            template: "./src/index.html"
+            template: './src/index.html'
         })
     ]
 };

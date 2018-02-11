@@ -8,9 +8,10 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config=config/webpack.prod.js --env.NODE_ENV=production",
-    "serve": "nodemon --watch config --watch server server/main.js",
-    "serve:prod": "cross-env NODE_ENV=production node server/main.js",
-    "postinstall": "rimraf dist && npm run build"
+    "dev": "nodemon --watch config --watch server server/main.js",
+    "prod": "cross-env NODE_ENV=production node server/main.js",
+    "postinstall": "rimraf dist && npm run build",
+    "stats": "cross-env BABEL_ENV=production webpack --config=config/webpack.prod.js --env.NODE_ENV=production --profile --json > dist/stats.json && webpack-bundle-analyzer dist/stats.json"
   },
   "repository": {
     "type": "git",
@@ -56,6 +57,7 @@
     "uglifyjs-webpack-plugin": "^1.1.8",
     "url-loader": "^0.6.2",
     "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^2.10.0",
     "webpack-dev-middleware": "^2.0.4",
     "webpack-hot-middleware": "^2.21.0",
     "webpack-mild-compile": "^2.0.0"
