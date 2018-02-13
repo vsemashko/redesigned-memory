@@ -6,7 +6,8 @@
         "targets": {
           "browsers": ["last 2 versions"]
         },
-        "debug": false
+        "debug": false,
+        "useBuiltIns": "entry"
       }
     ],
     "babel-preset-react"

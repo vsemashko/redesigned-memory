@@ -8,6 +8,7 @@ module.exports = {
         main: [
             'babel-runtime/regenerator',
             'webpack-hot-middleware/client?reload=true',
+            './src/polyfills.js',
             './src/main.js'
         ]
     },

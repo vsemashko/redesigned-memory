@@ -34,7 +34,7 @@ const postcssLoader = {
 module.exports = env => ({
     entry: {
         vendor: ["react", "lodash", "react-dom"],
-        main: ['./src/main.js']
+        main: ['./src/polyfills','./src/main.js']
     },
     devtool: 'source-map',
     output: {
